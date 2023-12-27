@@ -28,6 +28,11 @@
     margin: 0 0 10px 10px;
 }
 
+.participation-quantity-wrapper {
+    margin: 20px 0 10px 30px;
+
+}
+
 .number-wrapper {
     margin: 20px 10px 10px 10px;
 }
@@ -44,10 +49,6 @@
 .main-container {
     border: 1px solid #fff;
     padding: 30px;
-}
-
-.email-wrapper {
-    margin: 20px 10px 10px 10px;
 }
 
 .input-labels {
@@ -71,5 +72,9 @@
 }
 
 .button-wrapper {
-    display:flex;
+    display: flex;
+}
+
+.password-wrapper {
+    margin: 35px 0 20px 120px;
 }
