@@ -11,7 +11,7 @@ const Form = () => {
         password: '',
     });
     const [savedFormData, setSavedFormData] = useState([]);
-    const [, setCorrectPassword] = useState(true);
+    const [errorMessage, setErrorMessage] = useState("");
 
     const handleChange = (event) => {
         const {name, value} = event.target;
@@ -21,28 +21,27 @@ const Form = () => {
     const handleSubmit = (e) => {
         e.preventDefault();
 
-        if (!formData.firstName || !formData.lastName || !formData.number || !formData.email || !formData.password) {
-            alert("Please fill in all required fields");
-            return;
-        }
-        setCounter(counter + 1);
-        setSavedFormData((prevList) => [...prevList, formData]);
-        setFormData({
-            firstName: "",
-            lastName: "",
-            number: "",
-            email: "",
-            password: "",
-        })
-        setCorrectPassword(true);
-
         fetch('/api', {
             method: 'POST',
             headers: {"Content-Type": "application/json"},
             body: JSON.stringify(formData)
-        }).then((data) => {
-            console.log("data response", data);
-        }).catch(error => console.log('error caught', error))
+        }).then((res) => res.json())
+            .then((data) => {
+                if (data.error) {
+                        setErrorMessage(data.error)
+                } else if (data.newUser) {
+                    setCounter((prevCounter) => data.error ? prevCounter : prevCounter + 1);
+                    setSavedFormData((prevList) => [...prevList, formData]);
+                    setErrorMessage('');
+                    setFormData({
+                        firstName: "",
+                        lastName: "",
+                        number: "",
+                        email: "",
+                        password: "",
+                    })
+                }
+            }).catch(error => console.log('error caught', error))
     }
 
     return (
@@ -91,6 +90,8 @@ const Form = () => {
                         </label>
                     </div>
                 </div>
+                <p className="error-message">{errorMessage}</p>
+
                 <div className="button-wrapper">
                     <button type="submit" className="submit-btn"
                             disabled={!formData.firstName || !formData.lastName || !formData.number || !formData.email || !formData.password}>Submit

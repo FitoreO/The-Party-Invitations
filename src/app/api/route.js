@@ -9,11 +9,7 @@ export async function GET(request) {
 }
 
 export async function POST(request) {
-    const res = await prisma.passwords.findMany();
     const body = await request.json();
-    console.log(body);
-
-
 
     const password = await prisma.passwords.findFirst({
         where: {
@@ -21,17 +17,42 @@ export async function POST(request) {
         }
     })
 
-    console.log('this is a password', password);
-    const newUser = await prisma.user.create({
-        data: {
-            firstName: body.firstName,
-            lastName: body.lastName,
-            number: body.number,
-            email: body.email,
-            passwords: {
-                connect: {id: password.id}
-            },
+    if (!password) {
+        return NextResponse.json({
+            error: 'Wrong Password. Please try again'
+        }, {status: 500})
+    }
+
+    const doesUserExist = await prisma.user.findFirst({
+        where: {
+            email: body.email
         }
     })
-    return NextResponse.json({newUser})
+
+    if (doesUserExist) {
+        return NextResponse.json({
+            error: 'User with this email already exists'
+        }, {status: 500})
+    }
+
+    try {
+        const newUser = await prisma.user.create({
+            data: {
+                firstName: body.firstName,
+                lastName: body.lastName,
+                number: body.number,
+                email: body.email,
+                passwords: {
+                    connect: {id: password.id}
+                },
+            }
+        })
+
+        return NextResponse.json({newUser})
+    } catch (error) {
+        console.log(error)
+        return NextResponse.json({
+            error: 'Unexpected error'
+        }, {status: 500})
+    }
 }
