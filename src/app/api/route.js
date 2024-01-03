@@ -1,7 +1,9 @@
 import {NextResponse} from "next/server";
-import {PrismaClient} from "@prisma/client";
+import { PrismaClient} from "../../../prisma/generated/client";
 
-const prisma = new PrismaClient()
+const prisma = new PrismaClient();
+
+console.log('Prisma Client initialized.');
 
 export async function GET(request) {
     const res = await prisma.passwords.findMany();
