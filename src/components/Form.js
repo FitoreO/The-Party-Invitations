@@ -2,7 +2,6 @@ import {useEffect, useState} from "react";
 
 const Form = () => {
 
-    const [counter, setCounter] = useState(0);
     const [formData, setFormData] = useState({
         firstName: '',
         lastName: '',
@@ -16,7 +15,11 @@ const Form = () => {
     useEffect(() => {
         fetch('/api', {
             method: 'GET',
-        }).then((res) => res.json())
+        })
+            .then((res) => res.json())
+            .then((data) => {
+                setSavedFormData(data.res)
+            })
     }, []);
 
     const handleChange = (event) => {
@@ -36,7 +39,6 @@ const Form = () => {
                 if (data.error) {
                     setErrorMessage(data.error)
                 } else if (data.newUser) {
-                    setCounter((prevCounter) => data.error ? prevCounter : prevCounter + 1);
                     setSavedFormData((prevList) => [...prevList, formData]);
                     setErrorMessage('');
                     setFormData({
@@ -104,7 +106,7 @@ const Form = () => {
                     </button>
                 </div>
             </form>
-            <p>Number of People that have signed up already:{counter}</p>
+            <p>Number of People that have signed up already:{savedFormData.length}</p>
             {savedFormData.map((formData, index) => (
                 <div key={index}>
                     <p>Full Name: {formData.firstName} {formData.lastName}</p>
