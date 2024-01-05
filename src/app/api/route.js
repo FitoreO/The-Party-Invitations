@@ -6,9 +6,11 @@ const prisma = new PrismaClient();
 console.log('Prisma Client initialized.');
 
 export async function GET(request) {
-    const res = await prisma.passwords.findMany();
+    const res = await prisma.user.findMany();
     return NextResponse.json({res})
 }
+
+
 
 export async function POST(request) {
     const body = await request.json();

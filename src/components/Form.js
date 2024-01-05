@@ -1,4 +1,4 @@
-import {useState} from "react";
+import {useEffect, useState} from "react";
 
 const Form = () => {
 
@@ -12,6 +12,12 @@ const Form = () => {
     });
     const [savedFormData, setSavedFormData] = useState([]);
     const [errorMessage, setErrorMessage] = useState("");
+
+    useEffect(() => {
+        fetch('/api', {
+            method: 'GET',
+        }).then((res) => res.json())
+    }, []);
 
     const handleChange = (event) => {
         const {name, value} = event.target;
@@ -28,7 +34,7 @@ const Form = () => {
         }).then((res) => res.json())
             .then((data) => {
                 if (data.error) {
-                        setErrorMessage(data.error)
+                    setErrorMessage(data.error)
                 } else if (data.newUser) {
                     setCounter((prevCounter) => data.error ? prevCounter : prevCounter + 1);
                     setSavedFormData((prevList) => [...prevList, formData]);
