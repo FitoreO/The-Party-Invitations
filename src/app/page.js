@@ -18,7 +18,7 @@ export default function Home() {
     return (
         <main className={styles.main}>
             {loginBtn && <button className="login-btn" onClick={handleLoginBtn}>Login</button>}
-            {showLoginForm && <LoginForm />}
+            {showLoginForm && <LoginForm/>}
             {showForm && <Form/>}
         </main>
     )

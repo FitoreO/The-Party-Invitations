@@ -3,14 +3,10 @@ import { PrismaClient} from "../../../prisma/generated/client";
 
 const prisma = new PrismaClient();
 
-console.log('Prisma Client initialized.');
-
 export async function GET(request) {
     const res = await prisma.user.findMany();
     return NextResponse.json({res})
 }
-
-
 
 export async function POST(request) {
     const body = await request.json();
@@ -54,7 +50,6 @@ export async function POST(request) {
 
         return NextResponse.json({newUser})
     } catch (error) {
-        console.log(error)
         return NextResponse.json({
             error: 'Unexpected error'
         }, {status: 500})
