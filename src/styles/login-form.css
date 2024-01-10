@@ -4,3 +4,11 @@
     display: block;
 }
 
+.registered-form-data {
+    margin-bottom:50px;
+}
+
+.error-message {
+    color:red;
+    margin-left:60px;
+}
