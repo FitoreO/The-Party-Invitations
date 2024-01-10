@@ -75,7 +75,7 @@ const Form = () => {
                     </div>
                     <div className="info-wrapper">
                         <div className="fields-wrapper">
-                            <input className="input-fields" placeholder="Phone Number"
+                            <input className="input-fields" type="number" placeholder="Phone Number"
                                    onChange={handleChange} value={formData.number} name="number"/>
                             <label className="input-labels">
                                 Phone Number
@@ -107,13 +107,6 @@ const Form = () => {
                 </div>
             </form>
             <p>Number of People that have signed up already:{savedFormData.length}</p>
-            {savedFormData.map((formData, index) => (
-                <div key={index}>
-                    <p>Full Name: {formData.firstName} {formData.lastName}</p>
-                    <p>Phone Number: {formData.number}</p>
-                    <p>Email: {formData.email}</p>
-                </div>))}
-
         </div>
     )
 }
